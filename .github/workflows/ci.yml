@@ -1,0 +1,140 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  # Stage 1 - Code Quality (parallel)
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+      - name: Terraform Format
+        run: terraform fmt -recursive -check -diff
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: v0.55.1
+      - run: tflint --init
+      - run: tflint --recursive
+
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir:
+          - modules/cloud-run
+          - modules/firestore
+          - modules/secrets
+          - modules/pubsub
+          - modules/iam
+          - modules/monitoring
+          - environments/dev
+          - environments/prod
+          - examples/basic
+          - examples/multi-service
+          - examples/vpc-sc
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+      - run: terraform -chdir=${{ matrix.dir }} init -backend=false
+      - run: terraform -chdir=${{ matrix.dir }} validate
+
+  audit:
+    name: Security Audit (Checkov)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          framework: terraform
+          quiet: true
+          # Pinned for reproducibility
+          version: 3.2.334
+          # Don't fail CI on audit-only findings; surface them in the UI instead.
+          soft_fail: true
+
+  # Stage 2 - Tests (require Stage 1 jobs)
+  check-gcp:
+    name: Check GCP Credentials
+    runs-on: ubuntu-latest
+    needs: [format, lint, validate, audit]
+    outputs:
+      has-secrets: ${{ steps.check.outputs.has-secrets }}
+    env:
+      GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+    steps:
+      - id: check
+        run: |
+          if [ -n "$GOOGLE_PROJECT_ID" ]; then
+            echo "has-secrets=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-secrets=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: [format, lint, validate, audit, check-gcp]
+    if: needs.check-gcp.outputs.has-secrets == 'true'
+    env:
+      GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Run Unit Tests
+        working-directory: tests
+        run: |
+          go mod tidy
+          go test ./unit/... -v -timeout 30m
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [format, lint, validate, audit, check-gcp]
+    if: |
+      needs.check-gcp.outputs.has-secrets == 'true' &&
+      (github.event_name == 'push' && github.ref == 'refs/heads/main' ||
+       contains(github.event.pull_request.labels.*.name, 'integration'))
+    env:
+      GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Run Integration Tests
+        working-directory: tests
+        run: |
+          go mod tidy
+          go test ./integration/... -v -timeout 60m

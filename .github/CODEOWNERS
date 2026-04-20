@@ -1,0 +1,16 @@
+# Code owners for terraform-mcp-gcp-cloudrun
+# https://help.github.com/articles/about-codeowners/
+
+# Default owners for all files
+* @reaatech/maintainers
+
+# Module-specific owners
+/modules/     @reaatech/maintainers
+/environments/ @reaatech/maintainers
+/examples/    @reaatech/maintainers
+
+# Documentation
+*.md @reaatech/maintainers
+
+# CI/CD
+/.github/ @reaatech/maintainers
