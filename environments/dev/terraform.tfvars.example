@@ -1,0 +1,35 @@
+# Development Environment Configuration
+# Copy this file and customize for your deployment
+
+# GCP Project Configuration
+project_id  = "your-gcp-project-id"
+region      = "us-central1"
+environment = "dev"
+
+# MCP Server Configuration
+# Add your MCP server container images here
+mcp_servers = [
+  {
+    name  = "my-mcp-server"
+    image = "gcr.io/your-gcp-project-id/my-mcp-server:latest"
+  }
+]
+
+# Firestore Configuration
+firestore_database_id = "(default)"
+firestore_location    = "us-central"
+
+# Monitoring Configuration
+# alert_email = "your-team@example.com"
+
+# Pub/Sub Configuration (optional)
+enable_pubsub = false
+pubsub_topics = []
+
+# Secrets Configuration (optional)
+# Create secrets manually in Secret Manager after applying
+# secrets = {
+#   api-key = {
+#     secret_id = "mcp-api-key"
+#   }
+# }

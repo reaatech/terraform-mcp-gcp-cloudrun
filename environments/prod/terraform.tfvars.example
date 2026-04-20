@@ -1,0 +1,38 @@
+# Production Environment Configuration
+# IMPORTANT: Customize all values before deploying to production
+
+# GCP Project Configuration
+project_id  = "your-production-gcp-project-id"
+region      = "us-central1"
+environment = "prod"
+
+# MCP Server Configuration
+# Pin container images to digest for production
+mcp_servers = [
+  {
+    name  = "my-mcp-server"
+    image = "gcr.io/your-production-gcp-project-id/my-mcp-server@sha256:abc123..."
+  }
+]
+
+# Firestore Configuration
+firestore_database_id = "(default)"
+firestore_location    = "us-central"
+
+# Monitoring Configuration - REQUIRED for production
+alert_email = "your-team@example.com"
+
+# Pub/Sub Configuration
+enable_pubsub = true
+pubsub_topics = ["mcp-tasks", "mcp-results", "mcp-events"]
+
+# Secrets Configuration
+# Create secrets manually in Secret Manager before applying
+# secrets = {
+#   api-key = {
+#     secret_id = "mcp-api-key"
+#   }
+# }
+
+# VPC Configuration (optional)
+# vpc_connector = "projects/your-project/locations/us-central1/connectors/your-connector"
