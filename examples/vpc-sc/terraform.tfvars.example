@@ -1,0 +1,26 @@
+# VPC Service Controls Example - terraform.tfvars
+# Copy this file to terraform.tfvars and customize for your deployment
+
+# GCP Project Configuration
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+
+# MCP Server Configuration
+mcp_server_name  = "my-mcp-server"
+mcp_server_image = "gcr.io/your-gcp-project-id/my-mcp-server:latest"
+
+# VPC Configuration
+# Provide your VPC Access connector name
+# vpc_connector = "your-vpc-connector"
+
+# Firestore Configuration
+firestore_database_id = "(default)"
+firestore_location    = "us-central"
+delete_protection     = true
+
+# Monitoring Configuration
+# alert_email = "your-team@example.com"
+
+# IAM Configuration
+# List of members allowed to invoke the service (service accounts, groups, etc.)
+# invoker_members = ["serviceAccount:other-sa@your-project.iam.gserviceaccount.com"]

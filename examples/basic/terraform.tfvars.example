@@ -1,0 +1,25 @@
+# Basic Example - terraform.tfvars
+# Copy this file to terraform.tfvars and customize for your deployment
+
+# GCP Project Configuration
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+
+# MCP Server Configuration
+mcp_server_name  = "my-mcp-server"
+mcp_server_image = "gcr.io/your-gcp-project-id/my-mcp-server:latest"
+
+# Firestore Configuration
+firestore_database_id = "(default)"
+firestore_location    = "us-central"
+
+# Monitoring Configuration
+# alert_email = "your-team@example.com"
+
+# Secrets Configuration (optional)
+# Create secrets manually in Secret Manager after applying
+# secrets = {
+#   api-key = {
+#     secret_id = "mcp-api-key"
+#   }
+# }

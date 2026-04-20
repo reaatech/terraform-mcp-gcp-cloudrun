@@ -1,0 +1,28 @@
+# Multi-Service Example - terraform.tfvars
+# Copy this file to terraform.tfvars and customize for your deployment
+
+# GCP Project Configuration
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+
+# Orchestrator Configuration
+orchestrator_image = "gcr.io/your-gcp-project-id/orchestrator:latest"
+
+# Agent Configurations
+agents = [
+  {
+    name  = "agent-a"
+    image = "gcr.io/your-gcp-project-id/agent-a:latest"
+  },
+  {
+    name  = "agent-b"
+    image = "gcr.io/your-gcp-project-id/agent-b:latest"
+  }
+]
+
+# Firestore Configuration
+firestore_database_id = "(default)"
+firestore_location    = "us-central"
+
+# Monitoring Configuration
+# alert_email = "your-team@example.com"
