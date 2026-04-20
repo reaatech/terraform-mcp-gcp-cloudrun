@@ -1,0 +1,33 @@
+# Root-level example variables.
+# Each environment under ./environments/ has its own variables; copy
+# environments/<env>/terraform.tfvars.example to terraform.tfvars there
+# and customize rather than using this file directly.
+
+# GCP Project Configuration
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+
+# MCP Server Configuration
+mcp_servers = [
+  {
+    name  = "my-mcp-server"
+    image = "gcr.io/your-gcp-project-id/my-mcp-server:latest"
+  }
+]
+
+# Firestore Configuration
+firestore_database_id = "(default)"
+firestore_location    = "us-central"
+
+# Secrets Configuration (create secret versions manually after apply)
+# secrets = {
+#   api-key = {
+#     secret_id = "mcp-api-key"
+#   }
+# }
+
+# Monitoring Configuration
+alert_email = "your-team@example.com"
+
+# Environment-specific settings
+environment = "dev"
