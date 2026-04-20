@@ -1,0 +1,50 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+# Commit .terraform.lock.hcl to lock provider versions across the team.
+# Commit *.tfvars.example; ignore the real *.tfvars files.
+*.tfvars
+!*.tfvars.example
+
+# Test fixtures contain mock data and should be committed.
+!tests/test-fixtures/*.tfvars
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .override files
+*.override
+
+# Directory for Terraform to put temporary files
+.terraform/
+
+# SWP files
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+.claude/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Coverage
+coverage/
+*.out
+
+# Temporary files
+tmp/
+temp/
+
+# Claude-specific files
+DEV_PLAN.md

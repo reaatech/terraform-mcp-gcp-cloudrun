@@ -1,0 +1,31 @@
+# Exclude documentation from module
+README.md
+ARCHITECTURE.md
+AGENTS.md
+DEV_PLAN.md
+CHANGELOG.md
+SECURITY.md
+CONTRIBUTING.md
+LICENSE
+docs/
+
+# Exclude examples from module
+examples/
+
+# Exclude tests from module
+tests/
+
+# Exclude CI/CD from module
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Exclude skills from module
+skills/
+
+# Exclude configuration files
+.tflint.hcl
+.tool-versions
+.gitignore
+.terraformignore
+.editorconfig
