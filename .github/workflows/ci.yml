@@ -100,7 +100,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: "1.9.0"
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: "1.22"
       - uses: google-github-actions/auth@v3
@@ -127,7 +127,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: "1.9.0"
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: "1.22"
       - uses: google-github-actions/auth@v3
