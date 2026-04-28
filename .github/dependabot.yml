@@ -1,0 +1,106 @@
+version: 2
+updates:
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "gomod"
+    directory: "/tests"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/cloud-run"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/firestore"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/secrets"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/pubsub"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/iam"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/monitoring"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/environments/dev"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/environments/prod"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/examples/basic"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/examples/multi-service"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
+
+  - package-ecosystem: "terraform"
+    directory: "/examples/vpc-sc"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
